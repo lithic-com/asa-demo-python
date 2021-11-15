@@ -7,7 +7,6 @@ DISALLOWED_MCCS = ["5933", "5945"]
 DISALLOWED_MERCHANT_STATES = ["CT"]
 
 
-
 def authorize_merchant(merchant_info: dict) -> bool:
     """
     Dummy function showing some potential auth logic around merchant logic
