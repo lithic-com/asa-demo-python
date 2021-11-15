@@ -3,6 +3,8 @@ import pytest
 from webhook.authorization import (
     authorize,
     authorize_merchant,
+    APPROVED_RESULT,
+    UNAUTHORIZED_RESULT,
     DISALLOWED_MCCS,
     DISALLOWED_MERCHANT_STATES,
 )
@@ -30,10 +32,10 @@ def test_authorize_merchant(mcc, state, expected):
 
 def test_authorize(mock_asa_request):
     result = authorize(mock_asa_request)
-    assert result == "APPROVED"
+    assert result == APPROVED_RESULT
 
 
 def test_authorize_invalid(mock_asa_request):
     mock_asa_request["merchant"]["state"] = DISALLOWED_MERCHANT_STATES[0]
     result = authorize(mock_asa_request)
-    assert result == "UNAUTHORIZED_MERCHANT"
+    assert result == UNAUTHORIZED_RESULT

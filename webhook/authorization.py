@@ -1,7 +1,8 @@
+APPROVED_RESULT = "APPROVED"
+UNAUTHORIZED_RESULT = "UNAUTHORIZED_MERCHANT"
 # 5933: Pawn shops
 # 5945: Game, Toy and Hobby Shops
 DISALLOWED_MCCS = ["5933", "5945"]
-
 # For some reason, we are going to disallow Connecticut
 DISALLOWED_MERCHANT_STATES = ["CT"]
 
@@ -69,4 +70,4 @@ def authorize(asa_request: dict) -> str:
     }
     """
     is_authorized_merchant = authorize_merchant(asa_request["merchant"])
-    return "APPROVED" if is_authorized_merchant else "UNAUTHORIZED_MERCHANT"
+    return APPROVED_RESULT if is_authorized_merchant else UNAUTHORIZED_RESULT
