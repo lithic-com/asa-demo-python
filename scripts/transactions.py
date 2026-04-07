@@ -1,26 +1,18 @@
 import json
 
-import requests
+from lithic import APIError
 
-from util import read_api_key
+from util import create_client
 
 
-def list_transactions(api_key: str):
-    resp = requests.get(
-        "https://sandbox.lithic.com/v1/transaction",
-        headers={
-            "Authorization": f"api-key {api_key}",
-            "Content-type": "application/json",
-        },
-    )
-    resp.raise_for_status()
-    print(json.dumps(resp.json()))
+def list_transactions():
+    client = create_client()
+    transactions = client.transactions.list()
+    print(json.dumps([t.model_dump() for t in transactions], default=str))
 
 
 if __name__ == "__main__":
-    api_key = read_api_key()
-
     try:
-        list_transactions(api_key)
-    except requests.exceptions.HTTPError as e:
-        print(f"Failed to enroll webhook: {e.response.text}")
+        list_transactions()
+    except APIError as e:
+        print(f"Failed to list transactions: {e}")
