@@ -1,5 +1,7 @@
 import pytest
 
+from tests.unit.conftest import make_merchant
+
 from webhook.authorization import (
     authorize,
     authorize_merchant,
@@ -22,11 +24,8 @@ VALID_STATE = "CA"
     ],
 )
 def test_authorize_merchant(mcc, state, expected):
-    mock_merchant_info = {
-        "mcc": mcc,
-        "state": state,
-    }
-    result = authorize_merchant(mock_merchant_info)
+    merchant = make_merchant(mcc=mcc, state=state)
+    result = authorize_merchant(merchant)
     assert result is expected
 
 
@@ -36,6 +35,6 @@ def test_authorize(mock_asa_request):
 
 
 def test_authorize_invalid(mock_asa_request):
-    mock_asa_request["merchant"]["state"] = DISALLOWED_MERCHANT_STATES[0]
+    mock_asa_request.merchant = make_merchant(mcc=VALID_MCC, state=DISALLOWED_MERCHANT_STATES[0])
     result = authorize(mock_asa_request)
     assert result == UNAUTHORIZED_RESULT

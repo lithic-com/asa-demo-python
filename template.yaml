@@ -5,7 +5,7 @@ Description: >
 Globals:
   Function:
     Timeout: 3
-    Runtime: python3.9
+    Runtime: python3.13
 
 Resources:
   ASAWebhookFunction:

@@ -24,12 +24,12 @@
 - [Application Logs](#application-logs)
 - [Cleanup](#cleanup)
 - [Scripts](#scripts)
-  * [Enroll your endpoint in ASA](#enroll-your-endpoint-in-asa)
-  * [Simulate Events](#simulate-events)
-    + [Authorize and Returns](#authorize-and-returns)
-    + [Clearing and Void](#clearing-and-void)
-    + [Listing Transactions](#listing-transactions)
-  * [Create a Card](#create-a-card)
+  - [Enroll your endpoint in ASA](#enroll-your-endpoint-in-asa)
+  -  [Simulate Events](#simulate-events)
+     - [Authorize and Returns](#authorize-and-returns)
+     - [Clearing and Void](#clearing-and-void)
+     - [Listing Transactions](#listing-transactions)
+   - [Create a Card](#create-a-card)
 - [Testing](#testing)
 
 ## Overview
@@ -141,9 +141,10 @@ Depending on which action you are simulating, different arguments are required. 
 
 #### Authorize and Returns
 
-* **required** `pan`: A valid PAN; if you need to quickly create a card for testing, see the "Create a Card" script below.
-* `amount`: An amount (in cents) to authorize or return. Defaults to 0.
-* `descriptor`: Merchant descriptor. Defaults to "Sample descriptor".
+* **required:** 
+  * `pan`: A valid PAN; if you need to quickly create a card for testing, see the "Create a Card" script below.
+  * `amount`: An amount (in cents) to authorize or return. Defaults to 0.
+  * `descriptor`: Merchant descriptor. Defaults to "Sample descriptor".
 
 Example request:
 
@@ -153,8 +154,9 @@ python3 scripts/simulate.py authorize --pan 4111111289144142 --amount 52 --descr
 
 #### Clearing and Void
 
-* **required** `token`: a transaction token returned from an `authorize` response.
-* `amount`: Amount (in cents) to clear or void. Typically this will match the original authorization, but may be more or less. If no amount is supplied, the amount of the transaction will be cleared or voided. Any transaction that has any amount completed at all do not have access to this behavior.
+* **required:**
+  * `token`: a transaction token returned from an `authorize` response.
+  * `amount`: Amount (in cents) to clear or void. Typically this will match the original authorization, but may be more or less. If no amount is supplied, the amount of the transaction will be cleared or voided. Any transaction that has any amount completed at all do not have access to this behavior.
 
 Example request:
 

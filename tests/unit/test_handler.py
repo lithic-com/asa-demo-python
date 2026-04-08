@@ -1,4 +1,5 @@
 import json
+from unittest.mock import patch
 
 import pytest
 
@@ -6,9 +7,9 @@ from webhook.app import handler
 
 
 @pytest.fixture
-def api_gateway_event(mock_asa_request):
+def api_gateway_event():
     return {
-        "body": json.dumps(mock_asa_request),
+        "body": "{}",
         "resource": "/{proxy+}",
         "requestContext": {
             "resourceId": "123456",
@@ -60,10 +61,12 @@ def api_gateway_event(mock_asa_request):
     }
 
 
-def test_lambda_handler(api_gateway_event, mock_asa_request):
+@patch("webhook.app.client.webhooks.parse_unsafe")
+def test_lambda_handler(mock_parse, api_gateway_event, mock_asa_request):
+    mock_parse.return_value = mock_asa_request
     ret = handler(api_gateway_event, "")
     data = json.loads(ret["body"])
 
     assert ret["statusCode"] == 200
     assert "token" in data
-    assert data["token"] == mock_asa_request["token"]
+    assert data["token"] == mock_asa_request.token
